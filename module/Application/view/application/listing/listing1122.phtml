@@ -1,0 +1,61 @@
+<?php 
+/**
+ * ZF2 Buch Kapitel 11
+ * 
+ * Das Buch "Zend Framework 2 - Von den Grundlagen bis zur fertigen Anwendung"
+ * von Ralf Eggert ist im Addison-Wesley Verlag erschienen. 
+ * ISBN 978-3-8273-2994-3
+ * 
+ * @package    Application
+ * @author     Ralf Eggert <r.eggert@travello.de>
+ * @copyright  Alle Listings sind urheberrechtlich geschützt!
+ * @link       http://www.zendframeworkbuch.de/ und http://www.awl.de/2994
+ */
+
+/**
+ * Listing 11.22 view script
+ * 
+ * @package    Application
+ */
+?>
+<div class="row">
+<div class="span9">
+<h1>Listing 11.22</h1>
+<h3>Modul-Klasse zum Aktivieren der View-Strategy für Feeds</h3>
+<pre>
+&lt;?php
+namespace Pizza;
+
+use Zend\EventManager\EventInterface;
+use Zend\ModuleManager\Feature\BootstrapListenerInterface;
+
+class Module implements 
+    BootstrapListenerInterface
+{
+    public function onBootstrap(EventInterface $e)
+    {
+        // get event manager
+        $eventManager = $e->getApplication()->getEventManager();
+        
+        // Register a render event
+        $eventManager->attach('render', array($this, 'registerFeedStrategy'), 100);
+    }
+
+    public function registerFeedStrategy($e)
+    {
+        $controller = $e->getRouteMatch()->getParam('controller');
+        if (false === strpos($controller, 'rss')) {
+            return;
+        }
+        
+        $serviceManager = $e->getApplication()->getServiceManager();
+        
+        $view         = $serviceManager->get('Zend\View\View');
+        $feedStrategy = $serviceManager->get('ViewFeedStrategy');
+        
+        $view->getEventManager()->attach($feedStrategy, 100);
+    }
+}
+</pre>
+</div>
+</div>

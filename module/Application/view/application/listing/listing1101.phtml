@@ -1,0 +1,94 @@
+<?php 
+/**
+ * ZF2 Buch Kapitel 11
+ * 
+ * Das Buch "Zend Framework 2 - Von den Grundlagen bis zur fertigen Anwendung"
+ * von Ralf Eggert ist im Addison-Wesley Verlag erschienen. 
+ * ISBN 978-3-8273-2994-3
+ * 
+ * @package    Application
+ * @author     Ralf Eggert <r.eggert@travello.de>
+ * @copyright  Alle Listings sind urheberrechtlich geschützt!
+ * @link       http://www.zendframeworkbuch.de/ und http://www.awl.de/2994
+ */
+
+/**
+ * Listing 11.1 view script
+ * 
+ * @package    Application
+ */
+?>
+<div class="row">
+<div class="span9">
+<h1>Listing 11.1</h1>
+<h3>Beispiel für den Einsatz von <code>Zend\I18n\Translator</code></h3>
+<pre>
+&lt;?php
+use Zend\Debug\Debug;
+use Zend\I18n\Translator\Translator;
+
+Locale::setDefault('de-DE');
+
+$translator = new Translator();
+$translator->setLocale(Locale::getPrimaryLanguage(Locale::getDefault()));
+$translator->addTranslationFile(
+    'phpArray', 
+    LUIGI_ROOT . '/module/Application/language/de.php', 
+    'default', 
+    'de'
+);
+$translator->addTranslationFilePattern(
+    'phpArray', 
+    LUIGI_ROOT . '/module/Pizza/language/', 
+    '%s.php', 
+    'Pizza'
+);
+
+Debug::dump($translator->translate('title_application'));
+Debug::dump($translator->translate('title_application', 'default', 'de'));
+Debug::dump($translator->translate('title_application', 'Pizza', 'de'));
+Debug::dump($translator->translate('name_spinach', 'Pizza'));
+Debug::dump($translator->translate('name_ham', 'Pizza'));
+Debug::dump($translator->translate('name_melon', 'Pizza', 'de'));
+Debug::dump($translator->translate('name_spinach', 'Pizza', 'en'));
+Debug::dump($translator->translate('name_ham', 'Pizza', 'en'));
+Debug::dump($translator->translatePlural('pizza', 'pizza', '0'));
+Debug::dump($translator->translatePlural('pizza', 'pizza', '1'));
+Debug::dump($translator->translatePlural('pizza', 'pizza', '2'));
+</pre>
+<h3>Ausgabe</h3>
+<?php
+use Zend\Debug\Debug;
+use Zend\I18n\Translator\Translator;
+
+Locale::setDefault('de');
+
+$translator = new Translator();
+$translator->setLocale(Locale::getDefault());
+$translator->addTranslationFile(
+    'phpArray', 
+    LUIGI_ROOT . '/module/Application/language/de.php', 
+    'default', 
+    'de'
+);
+$translator->addTranslationFilePattern(
+    'phpArray', 
+    LUIGI_ROOT . '/module/Pizza/language/', 
+    '%s.php', 
+    'Pizza'
+);
+
+Debug::dump($translator->translate('title'));
+Debug::dump($translator->translate('title', 'default', 'de'));
+Debug::dump($translator->translate('title', 'Pizza', 'de'));
+Debug::dump($translator->translate('name_tuna', 'Pizza'));
+Debug::dump($translator->translate('name_ham', 'Pizza'));
+Debug::dump($translator->translate('name_melon', 'Pizza', 'de'));
+Debug::dump($translator->translate('name_tuna', 'Pizza', 'en'));
+Debug::dump($translator->translate('name_ham', 'Pizza', 'en'));
+Debug::dump($translator->translatePlural('pizza', 'pizza', '0'));
+Debug::dump($translator->translatePlural('pizza', 'pizza', '1'));
+Debug::dump($translator->translatePlural('pizza', 'pizza', '2'));
+?>
+</div>
+</div>

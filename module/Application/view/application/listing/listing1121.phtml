@@ -1,0 +1,113 @@
+<?php 
+/**
+ * ZF2 Buch Kapitel 11
+ * 
+ * Das Buch "Zend Framework 2 - Von den Grundlagen bis zur fertigen Anwendung"
+ * von Ralf Eggert ist im Addison-Wesley Verlag erschienen. 
+ * ISBN 978-3-8273-2994-3
+ * 
+ * @package    Application
+ * @author     Ralf Eggert <r.eggert@travello.de>
+ * @copyright  Alle Listings sind urheberrechtlich geschützt!
+ * @link       http://www.zendframeworkbuch.de/ und http://www.awl.de/2994
+ */
+
+/**
+ * Listing 11.21 view script
+ * 
+ * @package    Application
+ */
+
+?>
+<div class="row">
+<div class="span9">
+<h1>Listing 11.21</h1>
+<h3>RSS Feed erstellen mit <code>Zend\Feed\Writer</code></h3>
+<pre>
+&lt;?php
+use Zend\Db\Adapter\Adapter;
+use Zend\Feed\Writer\Feed;
+
+$this->plugin('currencyformat')->setCurrencyCode('EUR');
+
+$db = new Adapter(array(
+        'driver'   => 'Pdo_Sqlite',
+        'database' => LUIGI_ROOT . '/data/db/pizza.sqlite3.db',
+));
+
+$result = $db->query('SELECT * FROM toppings;', Adapter::QUERY_MODE_EXECUTE);
+
+$feed = new Feed();
+$feed->setTitle('Luigis Pizzabeläge');
+$feed->setFeedLink('http://www.luigis-pizza.de/pizza-toppings/rss', 'atom');
+$feed->addAuthor(array(
+    'name'  => 'Luigi',
+    'email' => 'info@luigis-pizza.de',
+    'uri'   => 'http://www.luigis-pizza.de',
+));
+$feed->setDescription('Dieser RSS Feed zeigt alle Pizzabeläge.');
+$feed->setLink('http://www.luigis-pizza.de');
+$feed->setDateModified(time());
+
+// add blog entries
+foreach ($result as $topping) {
+    $description = 'Eine Portion ' . $topping['name'] . ' kostet ';
+    $description.= $this->currencyFormat($topping['costs']);
+    $entry = $feed->createEntry();
+    $entry->setTitle($topping['name']);
+    $entry->setLink('http://www.luigis-pizza.de/topping/' . $topping['id']);
+    $entry->setDescription($description);
+    $entry->setDateModified(time());
+    $entry->setDateCreated(time());
+    
+    $feed->addEntry($entry);
+}
+
+echo htmlspecialchars($feed->export('atom'));
+</pre>
+<h3>Ausgabe</h3>
+<pre>
+<?php 
+use Zend\Db\Adapter\Adapter;
+use Zend\Feed\Writer\Feed;
+
+$this->plugin('currencyformat')->setCurrencyCode('EUR');
+
+$db = new Adapter(array(
+        'driver'   => 'Pdo_Sqlite',
+        'database' => LUIGI_ROOT . '/data/db/pizza.sqlite3.db',
+));
+
+$result = $db->query('SELECT * FROM toppings;', Adapter::QUERY_MODE_EXECUTE);
+
+$feed = new Feed();
+$feed->setTitle('Luigis Pizzabeläge');
+$feed->setFeedLink('http://www.luigis-pizza.de/pizza-toppings/rss', 'atom');
+$feed->addAuthor(array(
+    'name'  => 'Luigi',
+    'email' => 'info@luigis-pizza.de',
+    'uri'   => 'http://www.luigis-pizza.de',
+));
+$feed->setDescription('Dieser RSS Feed zeigt alle Pizzabeläge.');
+$feed->setLink('http://www.luigis-pizza.de');
+$feed->setDateModified(time());
+
+// add blog entries
+foreach ($result as $topping) {
+    $description = 'Ein Portion ' . $topping['name'] . ' kostet ';
+    $description.= $this->currencyFormat($topping['costs']);
+    $entry = $feed->createEntry();
+    $entry->setTitle($topping['name']);
+    $entry->setLink('http://www.luigis-pizza.de/topping/' . $topping['id']);
+    $entry->setDescription($description);
+    $entry->setDateModified(time());
+    $entry->setDateCreated(time());
+    
+    $feed->addEntry($entry);
+}
+
+echo htmlspecialchars($feed->export('atom'));
+?>
+</pre>
+</div>
+</div>

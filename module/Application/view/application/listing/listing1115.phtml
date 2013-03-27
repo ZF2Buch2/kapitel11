@@ -1,0 +1,131 @@
+<?php 
+/**
+ * ZF2 Buch Kapitel 11
+ * 
+ * Das Buch "Zend Framework 2 - Von den Grundlagen bis zur fertigen Anwendung"
+ * von Ralf Eggert ist im Addison-Wesley Verlag erschienen. 
+ * ISBN 978-3-8273-2994-3
+ * 
+ * @package    Application
+ * @author     Ralf Eggert <r.eggert@travello.de>
+ * @copyright  Alle Listings sind urheberrechtlich geschützt!
+ * @link       http://www.zendframeworkbuch.de/ und http://www.awl.de/2994
+ */
+
+/**
+ * Listing 11.15 view script
+ * 
+ * @package    Application
+ */
+?>
+<div class="row">
+<div class="span9">
+<h1>Listing 11.15</h1>
+<h3><code>Zend\Paginator</code> mit <code>DbSelect</code> Adapter</h3>
+<pre>
+&lt;?php
+use Zend\Db\Adapter\Adapter;
+use Zend\Db\Sql\Sql;
+use Zend\Paginator\Paginator;
+use Zend\Paginator\Adapter\DbSelect;
+
+$db = new Adapter(array(
+    'driver'   => 'Pdo_Sqlite',
+    'database' => LUIGI_ROOT . '/data/db/pizza.sqlite3.db',
+));
+
+$sql = new Sql($db);
+$select = $sql->select();
+$select->from('toppings');
+$select->order(array('name'  => 'ASC'));
+
+$paginator = new Paginator(new DbSelect($select, $db));
+$paginator->setCurrentPageNumber(2);
+$paginator->setItemCountPerPage(8);
+
+$this->plugin('currencyformat')->setCurrencyCode('EUR');
+
+$output = '&lt;table class="table table-bordered table-condensed table-striped"&gt;';
+$output.= '&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Zutat&lt;/th&gt;&lt;th&gt;Preis&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;';
+$output.= '&lt;tbody&gt;';
+
+foreach ($paginator-&gt;getCurrentItems() as $row) {
+    $output.= '&lt;tr&gt;';
+    $output.= '&lt;td&gt;' . $row['name'] . '&lt;/td&gt;';
+    $output.= '&lt;td&gt;' . $this-&gt;currencyFormat($row['costs']) . '&lt;/td&gt;';
+    $output.= '&lt;/tr&gt;';
+}
+
+$output.= '&lt;/tbody&gt;';
+$output.= '&lt;tfoot&gt;';
+$output.= '&lt;tr&gt;&lt;th colspan="2" style="text-align:center;"&gt;';
+$output.= 'Seite ' . $paginator-&gt;getCurrentPageNumber() . ' von ';
+$output.= $paginator-&gt;count() . ' | Anzahl Zutaten: ';
+$output.= $paginator-&gt;getTotalItemCount() . '&lt;/th&gt;&lt;/tr&gt;';
+$output.= '&lt;/tfoot&gt;';
+$output.= '&lt;/table&gt;';
+
+echo $output;
+</pre>
+<h3>Ausgabe</h3>
+<?php 
+// use Zend\Cache\StorageFactory;
+use Zend\Db\Adapter\Adapter;
+use Zend\Db\Sql\Sql;
+use Zend\Paginator\Paginator;
+use Zend\Paginator\Adapter\DbSelect;
+
+$db = new Adapter(array(
+    'driver'   => 'Pdo_Sqlite',
+    'database' => LUIGI_ROOT . '/data/db/pizza.sqlite3.db',
+));
+
+$sql = new Sql($db);
+$select = $sql->select();
+$select->from('toppings');
+$select->order(array('name'  => 'ASC'));
+
+/*
+    $cache = StorageFactory::factory(array(
+        'adapter' => array(
+            'name' => 'filesystem',
+            'options' => array(
+                'ttl'       => 30,
+                'cache_dir' => LUIGI_ROOT . '/data/cache',
+            ),
+        ),
+        'plugins' => array('serializer'),
+    ));
+    Paginator::setCache($cache);
+*/
+
+$paginator = new Paginator(new DbSelect($select, $db));
+$paginator->setCurrentPageNumber(2);
+$paginator->setItemCountPerPage(8);
+
+$this->plugin('currencyformat')->setCurrencyCode('EUR');
+
+$output = '<table class="table table-bordered table-condensed table-striped">';
+$output.= '<thead><tr><th>Zutat</th><th>Preis</th></tr></thead>';
+$output.= '<tbody>';
+
+foreach ($paginator->getCurrentItems() as $row) {
+    $output.= '<tr>';
+    $output.= '<td>' . $row['name'] . '</td>';
+    $output.= '<td>' . $this->currencyFormat($row['costs']) . '</td>';
+    $output.= '</tr>';
+}
+
+$output.= '</tbody>';
+$output.= '<tfoot>';
+$output.= '<tr><th colspan="2" style="text-align:center;">';
+$output.= 'Seite ' . $paginator->getCurrentPageNumber() . ' von ';
+$output.= $paginator->count() . ' | Anzahl Zutaten: ';
+$output.= $paginator->getTotalItemCount() . '</th></tr>';
+$output.= '</tfoot>';
+$output.= '</table>';
+
+echo $output;
+?>
+</div>
+</div>

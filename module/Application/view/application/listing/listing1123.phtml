@@ -1,0 +1,52 @@
+<?php 
+/**
+ * ZF2 Buch Kapitel 11
+ * 
+ * Das Buch "Zend Framework 2 - Von den Grundlagen bis zur fertigen Anwendung"
+ * von Ralf Eggert ist im Addison-Wesley Verlag erschienen. 
+ * ISBN 978-3-8273-2994-3
+ * 
+ * @package    Application
+ * @author     Ralf Eggert <r.eggert@travello.de>
+ * @copyright  Alle Listings sind urheberrechtlich geschützt!
+ * @link       http://www.zendframeworkbuch.de/ und http://www.awl.de/2994
+ */
+
+/**
+ * Listing 11.23 view script
+ * 
+ * @package    Application
+ */
+?>
+<div class="row">
+<div class="span9">
+<h1>Listing 11.23</h1>
+<h3>Kodierung eines Arrays mit <code>Json::encode()</code></h3>
+<pre>
+&lt;?php
+use Zend\Json\Json;
+
+$data = array(
+    array('name' => 'Pizza Salami', 'price' => 6.95),
+    array('name' => 'Pizza Hawaii', 'price' => 7.95),
+    array('name' => 'Pizza Melone', 'price' => 6.95),
+);
+
+echo Json::encode($data);
+</pre>
+<h3>Ausgabe</h3>
+<pre>
+<?php 
+use Zend\Json\Json;
+
+$data = array(
+    array('name' => 'Pizza Salami', 'price' => 6.95),
+    array('name' => 'Pizza Hawaii', 'price' => 7.95),
+    array('name' => 'Pizza Melone', 'price' => 6.95),
+);
+
+echo Json::encode($data);
+?>
+</pre>
+</div>
+</div>

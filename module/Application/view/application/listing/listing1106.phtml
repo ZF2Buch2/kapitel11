@@ -1,0 +1,76 @@
+<?php 
+/**
+ * ZF2 Buch Kapitel 11
+ * 
+ * Das Buch "Zend Framework 2 - Von den Grundlagen bis zur fertigen Anwendung"
+ * von Ralf Eggert ist im Addison-Wesley Verlag erschienen. 
+ * ISBN 978-3-8273-2994-3
+ * 
+ * @package    Application
+ * @author     Ralf Eggert <r.eggert@travello.de>
+ * @copyright  Alle Listings sind urheberrechtlich geschützt!
+ * @link       http://www.zendframeworkbuch.de/ und http://www.awl.de/2994
+ */
+
+/**
+ * Listing 11.6 view script
+ * 
+ * @package    Application
+ */
+?>
+<div class="row">
+<div class="span9">
+<h1>Listing 11.6</h1>
+<h3><code>Zend\Navigation</code> mit URI-Seiten erstellen</h3>
+<pre>
+&lt;?php
+use Zend\Navigation\Navigation;
+use Zend\Navigation\Page\Uri;
+
+$uri1 = new Uri(array('label' => 'Pizzaübersicht', 'uri' => '/pizza/list'));
+$uri2 = new Uri(array('label' => 'Warenkorb',      'uri' => '/pizza/basket'));
+$uri3 = new Uri(array('label' => 'Pizza Salami',   'uri' => '/pizza/salami'));
+$uri4 = new Uri(array('label' => 'Pizza Melone',   'uri' => '/pizza/melon'));
+$uri5 = new Uri(array('label' => 'Pizza Spinat',   'uri' => '/pizza/spinach'));
+
+$navigation = new Navigation();
+$navigation->addPage(new Uri(array(
+    'label' => 'Startseite', 'uri' => '/',
+)));
+$navigation->addPage(new Uri(array(
+    'label' => 'Pizzen', 'pages' => array($uri3, $uri4, $uri5),
+)));
+$navigation->addPage(new Uri(array(
+    'label' => 'Service', 'pages' => array($uri1, $uri2),
+)));
+
+echo $this->navigation()->menu($navigation);
+</pre>
+<h3>Ausgabe</h3>
+<pre>
+<?php 
+use Zend\Navigation\Navigation;
+use Zend\Navigation\Page\Uri;
+
+$uri1 = new Uri(array('label' => 'Pizzaübersicht', 'uri' => '/pizza/liste'));
+$uri2 = new Uri(array('label' => 'Warenkorb',      'uri' => '/pizza/warenkorb'));
+$uri3 = new Uri(array('label' => 'Pizza Salami',   'uri' => '/pizza/salami'));
+$uri4 = new Uri(array('label' => 'Pizza Melone',   'uri' => '/pizza/melone'));
+$uri5 = new Uri(array('label' => 'Pizza Spinat',   'uri' => '/pizza/spinat'));
+
+$navigation = new Navigation();
+$navigation->addPage(new Uri(array(
+    'label' => 'Startseite', 'uri' => '/',
+)));
+$navigation->addPage(new Uri(array(
+    'label' => 'Pizzen', 'pages' => array($uri3, $uri4, $uri5),
+)));
+$navigation->addPage(new Uri(array(
+    'label' => 'Service', 'pages' => array($uri1, $uri2),
+)));
+
+echo(htmlspecialchars($this->navigation()->menu($navigation)));
+?>
+</pre>
+</div>
+</div>

@@ -1,0 +1,63 @@
+<?php 
+/**
+ * ZF2 Buch Kapitel 11
+ * 
+ * Das Buch "Zend Framework 2 - Von den Grundlagen bis zur fertigen Anwendung"
+ * von Ralf Eggert ist im Addison-Wesley Verlag erschienen. 
+ * ISBN 978-3-8273-2994-3
+ * 
+ * @package    Application
+ * @author     Ralf Eggert <r.eggert@travello.de>
+ * @copyright  Alle Listings sind urheberrechtlich geschützt!
+ * @link       http://www.zendframeworkbuch.de/ und http://www.awl.de/2994
+ */
+
+/**
+ * Listing 11.16 view script
+ * 
+ * @package    Application
+ */
+?>
+<div class="row">
+<div class="span9">
+<h1>Listing 11.16</h1>
+<h3>Konfigurationsdatei für das Modul <code>Pizza</code></h3>
+<pre>
+&lt;?php
+return array(
+    'router' => array(
+        'routes' => array(
+            'pizza-toppings' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/pizza-toppings[/:page]',
+                    'constraints' => array(
+                        'name' => '[0-9]*',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'toppings',
+                        'action'     => 'index',
+                    ),
+                ),
+            ),
+        ),
+    ),
+    
+    'controllers' => array(
+        'invokables' => array(
+            'toppings' => 'Pizza\Controller\ToppingsController',
+        ),
+    ),
+    
+    'view_manager' => array(
+        'template_map' => array(
+            'pagination/control' => __DIR__ . '/../view/pagination/control.phtml',
+        ),
+        'template_path_stack' => array(
+            __DIR__ . '/../view',
+        ),
+    ),
+);
+</pre>
+</div>
+</div>

@@ -1,0 +1,65 @@
+<?php 
+/**
+ * ZF2 Buch Kapitel 11
+ * 
+ * Das Buch "Zend Framework 2 - Von den Grundlagen bis zur fertigen Anwendung"
+ * von Ralf Eggert ist im Addison-Wesley Verlag erschienen. 
+ * ISBN 978-3-8273-2994-3
+ * 
+ * @package    Application
+ * @author     Ralf Eggert <r.eggert@travello.de>
+ * @copyright  Alle Listings sind urheberrechtlich geschützt!
+ * @link       http://www.zendframeworkbuch.de/ und http://www.awl.de/2994
+ */
+
+/**
+ * Listing 11.20 view script
+ * 
+ * @package    Application
+ */
+?>
+<div class="row">
+<div class="span9">
+<h1>Listing 11.20</h1>
+<h3>RSS Feed einlesen mit <code>Zend\Feed\Reader</code></h3>
+<pre>
+&lt;?php
+    use Zend\Feed\Reader\Reader;
+
+    $feed   = Reader::import('http://www.zendframeworkbuch.de/blog/rss');
+?&gt;
+&lt;div class="well"&gt;
+&lt;h1&gt;&lt;?php echo $feed-&gt;getTitle(); ?&gt;&lt;/h1&gt;
+&lt;p&gt;&lt;?php echo $feed-&gt;getDescription(); ?&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;?php foreach ($feed as $item) :?&gt;
+&lt;div class="well"&gt;
+&lt;h3&gt;
+&lt;a href="&lt;?php echo $item-&gt;getLink();?&gt;"&gt;&lt;?php echo $item-&gt;getTitle();?&gt;&lt;/a&gt;
+&lt;/h3&gt;
+&lt;p&gt;&lt;?php echo $item-&gt;getDescription();?&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Datum: &lt;?php echo $this-&gt;dateFormat($item-&gt;getDateCreated()); ?&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;?php endforeach; ?&gt;
+</pre>
+<h3>Ausgabe</h3>
+<?php
+    use Zend\Feed\Reader\Reader;
+
+    $feed   = Reader::import('http://www.zendframeworkbuch.de/blog/rss');
+?>
+<div class="well">
+<h1><?php echo $feed->getTitle(); ?></h1>
+<p><?php echo $feed->getDescription(); ?></p>
+</div>
+<?php foreach ($feed as $item) :?>
+<div class="well">
+<h3>
+<a href="<?php echo $item->getLink();?>"><?php echo $item->getTitle();?></a>
+</h3>
+<p><?php echo $item->getDescription();?></p>
+<p><em>Datum: <?php echo $this->dateFormat($item->getDateCreated()); ?></em></p>
+</div>
+<?php endforeach; ?>
+</div>
+</div>

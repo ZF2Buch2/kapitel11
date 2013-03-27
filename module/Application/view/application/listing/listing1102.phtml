@@ -1,0 +1,54 @@
+<?php 
+/**
+ * ZF2 Buch Kapitel 11
+ * 
+ * Das Buch "Zend Framework 2 - Von den Grundlagen bis zur fertigen Anwendung"
+ * von Ralf Eggert ist im Addison-Wesley Verlag erschienen. 
+ * ISBN 978-3-8273-2994-3
+ * 
+ * @package    Application
+ * @author     Ralf Eggert <r.eggert@travello.de>
+ * @copyright  Alle Listings sind urheberrechtlich geschützt!
+ * @link       http://www.zendframeworkbuch.de/ und http://www.awl.de/2994
+ */
+
+/**
+ * Listing 11.2 view script
+ * 
+ * @package    Application
+ */
+?>
+<div class="row">
+<div class="span9">
+<h1>Listing 11.2</h1>
+<h3>Konfiguration für <code>Zend\I18n\Translator</code></h3>
+<pre>
+&lt;?php
+return array(
+    'translator' => array(
+        'locale' => 'de',
+        'translation_file_patterns' => array(
+            array(
+                'type'         => 'phpArray',
+                'base_dir'     => realpath(__DIR__ . '/../language'),
+                'pattern'      => '%s.php',
+                'text_domain'  => 'Pizza',
+            ),
+        ),
+        'cache' => array(
+            'adapter' => array(
+                'name' => 'filesystem',
+                'options' => array(
+                    'cache_dir'  => realpath(LUIGI_ROOT . '/data/cache/objects'),
+                    'ttl'        => 86400,
+                ),
+            ),
+            'plugins' => array(
+                'serializer'
+            ),
+        ),
+    ),
+);
+</pre>
+</div>
+</div>

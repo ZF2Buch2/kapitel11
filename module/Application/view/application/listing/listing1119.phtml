@@ -1,0 +1,52 @@
+<?php 
+/**
+ * ZF2 Buch Kapitel 11
+ * 
+ * Das Buch "Zend Framework 2 - Von den Grundlagen bis zur fertigen Anwendung"
+ * von Ralf Eggert ist im Addison-Wesley Verlag erschienen. 
+ * ISBN 978-3-8273-2994-3
+ * 
+ * @package    Application
+ * @author     Ralf Eggert <r.eggert@travello.de>
+ * @copyright  Alle Listings sind urheberrechtlich geschützt!
+ * @link       http://www.zendframeworkbuch.de/ und http://www.awl.de/2994
+ */
+
+/**
+ * Listing 11.19 view script
+ * 
+ * @package    Application
+ */
+?>
+<div class="row">
+<div class="span9">
+<h1>Listing 11.19</h1>
+<h3>View-Skript für die Ausgabe der Seitennavigation</h3>
+<pre>
+&lt;div class="pagination"&gt;
+&lt;ul&gt;
+&lt;?php if (isset($this-&gt;previous)): ?&gt;
+&lt;?php $url = $this-&gt;url($this-&gt;route, array('page' =&gt; $this-&gt;previous)); ?&gt;
+&lt;li&gt;&lt;a href="&lt;?php echo $url; ?&gt;"&gt;&laquo;&lt;/a&gt;&lt;/li&gt;
+&lt;?php else: ?&gt;
+&lt;li class="disabled"&gt;&lt;a&gt;&laquo;&lt;/a&gt;&lt;/li&gt;
+&lt;?php endif; ?&gt;
+&lt;?php foreach ($this-&gt;pagesInRange as $page) :?&gt;
+&lt;?php if ($page != $this-&gt;current): ?&gt;
+&lt;?php $url = $this-&gt;url($this-&gt;route, array('page' =&gt; $page)); ?&gt;
+&lt;li&gt;&lt;a href="&lt;?php echo $url; ?&gt;"&gt;&lt;?php echo $page; ?&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;?php else: ?&gt;
+&lt;li class="active"&gt;&lt;a&gt;&lt;?php echo $page; ?&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;?php endif; ?&gt;
+&lt;?php endforeach; ?&gt;
+&lt;?php if (isset($this-&gt;next)): ?&gt;
+&lt;?php $url = $this-&gt;url($this-&gt;route, array('page' =&gt; $this-&gt;next)); ?&gt;
+&lt;li&gt;&lt;a href="&lt;?php echo $url; ?&gt;"&gt;&raquo;&lt;/a&gt;&lt;/li&gt;
+&lt;?php else: ?&gt;
+&lt;li class="disabled"&gt;&lt;a&gt;&raquo;&lt;/a&gt;&lt;/li&gt;
+&lt;?php endif; ?&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+</pre>
+</div>
+</div>

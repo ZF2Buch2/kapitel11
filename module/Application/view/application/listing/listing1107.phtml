@@ -1,0 +1,108 @@
+<?php 
+/**
+ * ZF2 Buch Kapitel 11
+ * 
+ * Das Buch "Zend Framework 2 - Von den Grundlagen bis zur fertigen Anwendung"
+ * von Ralf Eggert ist im Addison-Wesley Verlag erschienen. 
+ * ISBN 978-3-8273-2994-3
+ * 
+ * @package    Application
+ * @author     Ralf Eggert <r.eggert@travello.de>
+ * @copyright  Alle Listings sind urheberrechtlich geschützt!
+ * @link       http://www.zendframeworkbuch.de/ und http://www.awl.de/2994
+ */
+
+/**
+ * Listing 11.7 view script
+ * 
+ * @package    Application
+ */
+?>
+<div class="row">
+<div class="span9">
+<h1>Listing 11.7</h1>
+<h3><code>Zend\Navigation</code> mit MVC-Seiten und Router einrichten</h3>
+<pre>
+&lt;?php
+use Zend\Http\Request;
+use Zend\Navigation\Navigation;
+use Zend\Navigation\Page\Mvc;
+use Zend\Navigation\Page\Uri;
+use Zend\Mvc\Router\Http\TreeRouteStack;
+
+$request = new Request();
+$request->setUri('/pizza/melone');
+
+$router = new TreeRouteStack();
+$router->addRoute(
+    'pizza-name', 
+    array(
+        'type'    => 'segment',
+        'options' => array(
+            'route'       => '/pizza/:name',
+            'constraints' => array('name' => '[a-zA-Z][a-zA-Z-]*',),
+            'defaults'    => array('controller' => 'pizza', 'action' => 'name'),
+        )
+    )
+);
+$routeMatch = $router->match($request);
+
+$navigation = new Navigation();
+$navigation->addPage(new Uri(array('label' => 'Startseite', 'uri' => '/')));
+
+foreach (array('Salami', 'Melone', 'Hawaii', 'Thunfisch') as $pizzaName) {
+    $navigation->addPage(new Mvc(array(
+        'label'      => 'Pizza ' . $pizzaName,
+        'params'     => array('name' => strtolower($pizzaName)),
+        'route'      => 'pizza-name',
+        'routeMatch' => $routeMatch,
+        'router'     => $router,
+    )));
+}
+
+echo $this->navigation()->menu($navigation);
+</pre>
+<h3>Ausgabe</h3>
+<pre>
+<?php 
+use Zend\Http\Request;
+use Zend\Navigation\Navigation;
+use Zend\Navigation\Page\Mvc;
+use Zend\Navigation\Page\Uri;
+use Zend\Mvc\Router\Http\TreeRouteStack;
+
+$request = new Request();
+$request->setUri('/pizza/melone');
+
+$router = new TreeRouteStack();
+$router->addRoute(
+    'pizza-name', 
+    array(
+        'type'    => 'segment',
+        'options' => array(
+            'route'       => '/pizza/:name',
+            'constraints' => array('name' => '[a-zA-Z][a-zA-Z-]*',),
+            'defaults'    => array('controller' => 'pizza', 'action' => 'name'),
+        )
+    )
+);
+$routeMatch = $router->match($request);
+
+$navigation = new Navigation();
+$navigation->addPage(new Uri(array('label' => 'Startseite', 'uri' => '/')));
+
+foreach (array('Salami', 'Melone', 'Hawaii') as $pizzaName) {
+    $navigation->addPage(new Mvc(array(
+        'label'      => 'Pizza ' . $pizzaName,
+        'params'     => array('name' => strtolower($pizzaName)),
+        'route'      => 'pizza-name',
+        'routeMatch' => $routeMatch,
+        'router'     => $router,
+    )));
+}
+
+echo(htmlspecialchars($this->navigation()->menu($navigation)));
+?>
+</pre>
+</div>
+</div>

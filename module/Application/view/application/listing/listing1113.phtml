@@ -1,0 +1,118 @@
+<?php 
+/**
+ * ZF2 Buch Kapitel 11
+ * 
+ * Das Buch "Zend Framework 2 - Von den Grundlagen bis zur fertigen Anwendung"
+ * von Ralf Eggert ist im Addison-Wesley Verlag erschienen. 
+ * ISBN 978-3-8273-2994-3
+ * 
+ * @package    Application
+ * @author     Ralf Eggert <r.eggert@travello.de>
+ * @copyright  Alle Listings sind urheberrechtlich geschützt!
+ * @link       http://www.zendframeworkbuch.de/ und http://www.awl.de/2994
+ */
+
+/**
+ * Listing 11.13 view script
+ * 
+ * @package    Application
+ */
+?>
+<div class="row">
+<div class="span9">
+<h1>Listing 11.13</h1>
+<h3><code>Zend\Navigation</code> mit <code>Zend\Acl</code> einschränken</h3>
+<pre>
+&lt;?php
+use Zend\Navigation\Navigation;
+use Zend\Permissions\Acl\Acl;
+
+$acl = new Acl();
+$acl->addRole('guest');
+$acl->addRole('admin', 'guest');
+$acl->addResource('application');
+$acl->addResource('pizza');
+$acl->addResource('pizza-admin');
+$acl->allow('guest', array('application', 'pizza'), array('index'));
+$acl->allow('admin', array('pizza-admin'), array('index'));
+
+$config = array(
+    'pages' => array(
+        'home' => array(
+            'label'     => 'Startseite',
+            'type'      => 'uri',
+            'uri'       => '/',
+        ),
+        'pizzas' => array(
+            'label'     => 'Pizzen',
+            'type'      => 'uri',
+            'uri'       => '/pizza',
+            'resource'  => 'pizza',
+            'privilege' => 'index',
+        ),
+        'administration' => array(
+            'label'     => 'Administration',
+            'type'      => 'uri',
+            'uri'       => '/pizza-admin',
+            'resource'  => 'pizza-admin',
+            'privilege' => 'index',
+        ),
+    ),
+);
+
+$navigation = new Navigation($config['pages']);
+
+$this->navigation()->setRole('guest');
+$this->navigation()->setAcl($acl);
+
+echo $this->navigation()->menu()->render($navigation);
+</pre>
+<h3>Ausgabe</h3>
+<pre>
+<?php
+use Zend\Navigation\Navigation;
+use Zend\Permissions\Acl\Acl;
+
+$acl = new Acl();
+$acl->addRole('guest');
+$acl->addRole('admin', 'guest');
+$acl->addResource('application');
+$acl->addResource('pizza');
+$acl->addResource('pizza-admin');
+$acl->allow('guest', array('application', 'pizza'), array('index'));
+$acl->allow('admin', array('pizza-admin'), array('index'));
+
+$config = array(
+    'pages' => array(
+        'home' => array(
+            'label'     => 'Startseite',
+            'type'      => 'uri',
+            'uri'       => '/',
+        ),
+        'pizzas' => array(
+            'label'     => 'Pizzen',
+            'type'      => 'uri',
+            'uri'       => '/pizza',
+            'resource'  => 'pizza',
+            'privilege' => 'index',
+        ),
+        'administration' => array(
+            'label'     => 'Administration',
+            'type'      => 'uri',
+            'uri'       => '/pizza-admin',
+            'resource'  => 'pizza-admin',
+            'privilege' => 'index',
+        ),
+    ),
+);
+
+$navigation = new Navigation($config['pages']);
+
+$this->navigation()->setRole('guest');
+$this->navigation()->setAcl($acl);
+
+echo(htmlspecialchars($this->navigation()->menu()->render($navigation)));
+?>
+</pre>
+</div>
+</div>

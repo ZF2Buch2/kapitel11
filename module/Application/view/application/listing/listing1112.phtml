@@ -1,0 +1,94 @@
+<?php 
+/**
+ * ZF2 Buch Kapitel 11
+ * 
+ * Das Buch "Zend Framework 2 - Von den Grundlagen bis zur fertigen Anwendung"
+ * von Ralf Eggert ist im Addison-Wesley Verlag erschienen. 
+ * ISBN 978-3-8273-2994-3
+ * 
+ * @package    Application
+ * @author     Ralf Eggert <r.eggert@travello.de>
+ * @copyright  Alle Listings sind urheberrechtlich geschützt!
+ * @link       http://www.zendframeworkbuch.de/ und http://www.awl.de/2994
+ */
+
+/**
+ * Listing 11.12 view script
+ * 
+ * @package    Application
+ */
+?>
+<div class="row">
+<div class="span9">
+<h1>Listing 11.12</h1>
+<h3>Ausgabe von Breadcrumbs mit <code>Navigation</code> View-Helper</h3>
+<pre>
+&lt;?php
+use Zend\Navigation\Navigation;
+
+$config = array(
+    'pages' => array(
+        'pizzas' => array(
+            'label'  => 'Pizzen',
+            'type'   => 'uri',
+            'uri'    => '/pizza',
+            'pages'  => array(
+                'salami' => array(
+                    'label'  => 'Pizza Salami',
+                    'type'   => 'uri',
+                    'uri'    => '/pizza/salami',
+                    'pages'  => array(
+                        'offer' => array(
+                            'label'  => 'Monatsangebot',
+                            'type'   => 'uri',
+                            'uri'    => '/pizza/angebot',
+                            'active' => true,
+                        ),
+                    ),
+                ),
+            ),
+        ),
+    ),
+);
+
+$navigation = new Navigation($config['pages']);
+
+echo $this->navigation()->breadcrumbs()->render($navigation);
+</pre>
+<h3>Ausgabe</h3>
+<pre>
+<?php 
+use Zend\Navigation\Navigation;
+
+$config = array(
+    'pages' => array(
+        'pizzas' => array(
+            'label'  => 'Pizzen',
+            'type'   => 'uri',
+            'uri'    => '/pizza',
+            'pages'  => array(
+                'salami' => array(
+                    'label'  => 'Pizza Salami',
+                    'type'   => 'uri',
+                    'uri'    => '/pizza/salami',
+                    'pages'  => array(
+                        'offer' => array(
+                            'label'  => 'Monatsangebot',
+                            'type'   => 'uri',
+                            'uri'    => '/pizza/angebot',
+                            'active' => true,
+                        ),
+                    ),
+                ),
+            ),
+        ),
+    ),
+);
+
+$navigation = new Navigation($config['pages']);
+
+echo(htmlspecialchars($this->navigation()->breadcrumbs()->render($navigation)));
+?>
+</pre>
+</div>
+</div>

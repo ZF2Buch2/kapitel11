@@ -1,0 +1,46 @@
+<?php 
+/**
+ * ZF2 Buch Kapitel 11
+ * 
+ * Das Buch "Zend Framework 2 - Von den Grundlagen bis zur fertigen Anwendung"
+ * von Ralf Eggert ist im Addison-Wesley Verlag erschienen. 
+ * ISBN 978-3-8273-2994-3
+ * 
+ * @package    Application
+ * @author     Ralf Eggert <r.eggert@travello.de>
+ * @copyright  Alle Listings sind urheberrechtlich geschützt!
+ * @link       http://www.zendframeworkbuch.de/ und http://www.awl.de/2994
+ */
+
+/**
+ * Listing 11.18 view script
+ * 
+ * @package    Application
+ */
+?>
+<div class="row">
+<div class="span9">
+<h1>Listing 11.18</h1>
+<h3>View-Skript, das die <code>Paginator</code>-Daten und die Seitennavigation ausgibt</h3>
+<pre>
+&lt;div class="hero-unit"&gt;
+&lt;h1&gt;Viele leckere Pizzabeläge&lt;/h1&gt;
+&lt;/div&gt;
+&lt;div class="well"&gt;
+&lt;ul&gt;
+&lt;?php foreach ($this-&gt;paginator-&gt;getCurrentItems() as $row) : ?&gt;
+&lt;li&gt;
+&lt;?php echo $row['name']?&gt; (&lt;?php echo $this-&gt;currencyFormat($row['costs']); ?&gt;)
+&lt;/li&gt;
+&lt;?php endforeach; ?&gt;
+&lt;/ul&gt;
+&lt;?php 
+echo $this-&gt;paginationControl(
+    $this-&gt;paginator, 'Sliding', 'pagination/control', 
+    array('route' =&gt; 'pizza-toppings')
+);
+?&gt;
+&lt;/div&gt;
+</pre>
+</div>
+</div>

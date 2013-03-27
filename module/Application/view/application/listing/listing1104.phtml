@@ -1,0 +1,90 @@
+<?php 
+/**
+ * ZF2 Buch Kapitel 11
+ * 
+ * Das Buch 'Zend Framework 2 - Von den Grundlagen bis zur fertigen Anwendung'
+ * von Ralf Eggert ist im Addison-Wesley Verlag erschienen. 
+ * ISBN 978-3-8273-2994-3
+ * 
+ * @package    Application
+ * @author     Ralf Eggert <r.eggert@travello.de>
+ * @copyright  Alle Listings sind urheberrechtlich geschützt!
+ * @link       http://www.zendframeworkbuch.de/ und http://www.awl.de/2994
+ */
+
+/**
+ * Listing 11.4 view script
+ * 
+ * @package    Application
+ */
+?>
+<div class='row'>
+<div class='span9'>
+<h1>Listing 11.4</h1>
+<h3>Einsatz der <code>Zend\I18n</code> View-Helper</h3>
+<pre>
+&lt;?php
+use Zend\Debug\Debug;
+
+Locale::setDefault('de-DE');
+
+$this->plugin('currencyformat')->setCurrencyCode('EUR');
+$this->plugin('currencyformat')->setShouldShowDecimals(true);
+
+Debug::dump($this->currencyFormat(123456.78));
+Debug::dump($this->currencyFormat(123456.78, 'USD'));
+
+$this->plugin('numberformat')->setFormatStyle(NumberFormatter::DECIMAL);
+
+Debug::dump($this->numberFormat(1.23));
+Debug::dump($this->numberFormat(1.23, NumberFormatter::PERCENT));
+
+$date = new DateTime();
+
+Debug::dump($this->dateFormat(
+    $date, 
+    IntlDateFormatter::MEDIUM,
+    IntlDateFormatter::NONE
+));
+
+Debug::dump($this->dateFormat(
+    $date, 
+    IntlDateFormatter::FULL,
+    IntlDateFormatter::FULL,
+    'it_IT'
+));
+</pre>
+<h3>Ausgabe</h3>
+<?php 
+use Zend\Debug\Debug;
+
+Locale::setDefault('de-DE');
+
+$this->plugin('currencyformat')->setCurrencyCode('EUR');
+$this->plugin('currencyformat')->setShouldShowDecimals(true);
+
+Debug::dump($this->currencyFormat(123456.78));
+Debug::dump($this->currencyFormat(123456.78, 'USD'));
+
+$this->plugin('numberformat')->setFormatStyle(NumberFormatter::DECIMAL);
+
+Debug::dump($this->numberFormat(1.23));
+Debug::dump($this->numberFormat(1.23, NumberFormatter::PERCENT));
+
+$date = new DateTime();
+
+Debug::dump($this->dateFormat(
+    $date, 
+    IntlDateFormatter::MEDIUM,
+    IntlDateFormatter::NONE
+));
+
+Debug::dump($this->dateFormat(
+    $date, 
+    IntlDateFormatter::FULL,
+    IntlDateFormatter::FULL,
+    'it_IT'
+));
+?>
+</div>
+</div>

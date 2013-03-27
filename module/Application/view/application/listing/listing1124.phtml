@@ -1,0 +1,90 @@
+<?php 
+/**
+ * ZF2 Buch Kapitel 11
+ * 
+ * Das Buch "Zend Framework 2 - Von den Grundlagen bis zur fertigen Anwendung"
+ * von Ralf Eggert ist im Addison-Wesley Verlag erschienen. 
+ * ISBN 978-3-8273-2994-3
+ * 
+ * @package    Application
+ * @author     Ralf Eggert <r.eggert@travello.de>
+ * @copyright  Alle Listings sind urheberrechtlich geschützt!
+ * @link       http://www.zendframeworkbuch.de/ und http://www.awl.de/2994
+ */
+
+/**
+ * Listing 11.24 view script
+ * 
+ * @package    Application
+ */
+?>
+<div class="row">
+<div class="span9">
+<h1>Listing 11.24</h1>
+<h3>Ausgabe einer Tagwolke mit <code>Zend\Tag\Cloud</code></h3>
+<pre>
+&lt;?php
+use Zend\Tag\Cloud;
+
+$tagCloud = new Cloud(array(
+    'cloudDecorator' => array(
+        'decorator' => 'htmlcloud',
+        'options' => array(
+            'htmlTags' => array('ul' => array('class' => 'myTagCloud'))
+        )
+    ),
+    'tagDecorator' => array(
+        'decorator' => 'htmltag',
+        'options' => array(
+            'htmlTags' => array('li' => array('class' => 'myTagItem'))
+        )
+    ),
+    'tags' => array(
+        array('title' => 'Pizza Salami', 'weight' => 3,
+            'params' => array('url' => '/tag/pizza-salami')),
+        array('title' => 'Pizza Hawaii', 'weight' => 1,
+            'params' => array('url' => '/tag/pizza-hawaii')),
+        array('title' => 'Pizza Melone', 'weight' => 7,
+            'params' => array('url' => '/tag/pizza-melone')),
+        array('title' => 'Pizza Thunfisch', 'weight' => 4,
+            'params' => array('url' => '/tag/pizza-thunfisch')),
+    )
+));
+
+echo $tagCloud;
+</pre>
+<h3>Ausgabe</h3>
+<div class="well">
+<?php 
+use Zend\Tag\Cloud;
+
+$tagCloud = new Cloud(array(
+    'cloudDecorator' => array(
+        'decorator' => 'htmlcloud',
+        'options' => array(
+            'htmlTags' => array('ul' => array('class' => 'myTagCloud'))
+        )
+    ),
+    'tagDecorator' => array(
+        'decorator' => 'htmltag',
+        'options' => array(
+            'htmlTags' => array('li' => array('class' => 'myTagItem'))
+        )
+    ),
+    'tags' => array(
+        array('title' => 'Pizza Salami', 'weight' => 3,
+            'params' => array('url' => '/tag/pizza-salami')),
+        array('title' => 'Pizza Hawaii', 'weight' => 1,
+            'params' => array('url' => '/tag/pizza-hawaii')),
+        array('title' => 'Pizza Melone', 'weight' => 7,
+            'params' => array('url' => '/tag/pizza-melone')),
+        array('title' => 'Pizza Thunfisch', 'weight' => 4,
+            'params' => array('url' => '/tag/pizza-thunfisch')),
+    )
+));
+
+echo $tagCloud;
+?>
+</div>
+</div>
+</div>
